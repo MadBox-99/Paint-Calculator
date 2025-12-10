@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\PartnerShopExporter;
 use App\Filament\Imports\PartnerShopImporter;
 use App\Filament\Resources\PartnerShopResource\Pages;
 use App\Models\PartnerShop;
+use Filament\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -75,6 +77,7 @@ class PartnerShopResource extends Resource
 
             ])->headerActions([
                 ImportAction::make()->importer(PartnerShopImporter::class),
+                ExportAction::make()->exporter(PartnerShopExporter::class),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
