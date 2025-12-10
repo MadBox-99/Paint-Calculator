@@ -97,14 +97,14 @@ class CalculateForm extends Component implements HasForms
                             ->where('min', '<=', $state)->where('max', '>=', $state)->first();
                         $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
                     }),
-                Select::make('region')->visible(fn (Get $get) => $get('area'))
+                /*  Select::make('region')->visible(fn (Get $get) => $get('area'))
                     ->label('Válaszd ki a települést, ahol vásárolni szeretnél')
                     ->options(Region::all()->pluck('name', 'id'))
                     ->live(),
                 Select::make('store')->visible(fn (Get $get) => $get('region'))
                     ->options(fn (Get $get) => $get('region') ? Region::find($get('region'))->stores()->get()->pluck('name', 'id') : [])
                     ->label('Válaszd ki a festékboltot')
-                    ->live(),
+                    ->live(), */
             ])
             ->statePath('data');
     }

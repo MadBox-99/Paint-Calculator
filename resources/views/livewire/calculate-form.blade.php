@@ -11,12 +11,12 @@
                         wire:click="sendOnlyToSelf">{{ __('Elküldöm csak magamnak') }}
                     </button>
                 @endif
-                @if ($this->data['region'] !== null && $this->data['area'] !== null)
+                {{--  @if ($this->data['region'] !== null && $this->data['area'] !== null)
                     <button type="submit" wire:click="submit"
                         class="px-4 py-2 text-white bg-rose-500 rounded hover:bg-rose-600">{{ __('filament-actions::modal.actions.submit.label') }}
                         az üzletnek
                     </button>
-                @endif
+                @endif --}}
 
             </div>
         </div>
