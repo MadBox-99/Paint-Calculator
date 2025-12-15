@@ -8,7 +8,7 @@ use App\Filament\Exports\PartnerShopExporter;
 use App\Filament\Imports\PartnerShopImporter;
 use App\Filament\Resources\PartnerShopResource\Pages;
 use App\Models\PartnerShop;
-use Filament\Actions\ExportAction;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
