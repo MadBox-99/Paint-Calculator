@@ -41,25 +41,11 @@ class CalculateForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                TextInput::make('full_name')->validationAttribute('full_name')
-                    ->required()
-                    ->label('Kérlek, írd be a neved, minimum a keresztneved')
-                    ->validationMessages([
-                        'required' => 'A név megadása kötelező',
-                    ])
-                    ->live(),
-                TextInput::make('email')->validationAttribute('email')
-                    ->email()
-                    ->required()
-                    ->validationMessages([
-                        'required' => 'Az email cím megadása kötelező',
-                    ])
-                    ->label('Email címed')
-                    ->live(),
                 Select::make('selectedPaintCategory')
                     ->required()
                     ->options(PaintCategory::all()->pluck('name', 'id'))
                     ->label('Válaszd ki, hogy milyen munkát szeretnél elvégezni')
+                    ->placeholder('Válassz ki egy kategóriát')
                     ->validationMessages([
                         'required' => 'A festés típusának kiválasztása kötelező',
                     ])
@@ -97,6 +83,23 @@ class CalculateForm extends Component implements HasForms
                             ->where('min', '<=', $state)->where('max', '>=', $state)->first();
                         $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
                     }),
+                TextInput::make('email')->validationAttribute('email')
+                    ->email()
+                    ->required()
+                    ->validationMessages([
+                        'required' => 'Az email cím megadása kötelező',
+                    ])
+                    ->label('Amennyiben E-mailben szeretnéd elküldeni magadnak a listát, írd be az E-mail címed')
+                    ->visible(fn (Get $get) => $get('area'))
+                    ->live(),
+                TextInput::make('full_name')->validationAttribute('full_name')
+                    ->required()
+                    ->label('Kérlek, írd be a neved, minimum a keresztneved')
+                    ->validationMessages([
+                        'required' => 'A név megadása kötelező',
+                    ])
+                    ->visible(fn (Get $get) => $get('area'))
+                    ->live(),
                 /*  Select::make('region')->visible(fn (Get $get) => $get('area'))
                     ->label('Válaszd ki a települést, ahol vásárolni szeretnél')
                     ->options(Region::all()->pluck('name', 'id'))
@@ -171,6 +174,24 @@ class CalculateForm extends Component implements HasForms
         Mail::to($data['email'])->send(new CalculationFormSendToUser($data, $pdfPath));
 
         redirect()->to('/siker');
+    }
+
+    public function downloadPdf()
+    {
+        $data = [
+            'selectedPaintDescription' => $this->selectedPaintDescription,
+            'selectedPaintCategory' => PaintCategory::find($this->data['selectedPaintCategory']),
+            'tilePaint' => $this->selectedTilePaint,
+            'area' => $this->data['area'],
+            'full_name' => $this->data['full_name'] ?? '',
+            'email' => $this->data['email'] ?? '',
+        ];
+
+        $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, 'kalkulacio.pdf');
     }
 
     public function render(): View

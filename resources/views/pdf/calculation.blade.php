@@ -99,10 +99,6 @@
                         csempe festésére az alább felsorolt anyagokat szükséges megvásárolni
                     </h2>
                     <p class="mb-2 details">{!! $data['selectedPaintDescription']?->description !!}</p>
-                    <p class="mb-2 details"><strong>Várható végösszeg:</strong> bruttó
-                        {{ $data['selectedPaintDescription']?->price }}Ft +
-                        színezés
-                    </p>
                     <div class="page-break"></div>
                     <h2 class="mt-4 mb-2 text-lg font-semibold"><strong>Rétegrend:</strong></h2>
                     @isset($data['tilePaint'])

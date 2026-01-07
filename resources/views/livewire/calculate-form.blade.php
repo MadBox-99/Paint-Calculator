@@ -7,8 +7,11 @@
 
             <div class="flex space-x-4">
                 @if ($this->data['area'] !== null)
+                    <button type="button" class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600"
+                        wire:click="downloadPdf">{{ __('Nyomtatás') }}
+                    </button>
                     <button type="button" class="px-4 py-2 text-white bg-gold-500 rounded hover:bg-gold-600"
-                        wire:click="sendOnlyToSelf">{{ __('Elküldöm csak magamnak') }}
+                        wire:click="sendOnlyToSelf">{{ __('Elküldöm E-mailben') }}
                     </button>
                 @endif
                 {{--  @if ($this->data['region'] !== null && $this->data['area'] !== null)
@@ -28,9 +31,6 @@
                     felsorolt anyagokat szükséges megvásárolni
                 </h2>
                 <p class="mb-2">{!! $selectedPaintDescription?->description !!}</p>
-                <p class="mb-2"><strong>Várható végösszeg:</strong> bruttó {{ $selectedPaintDescription?->price }}Ft +
-                    színezés
-                </p>
                 <h2 class="mt-4 mb-2 text-lg font-semibold"><strong>Rétegrend:</strong></h2>
                 @isset($selectedTilePaint)
                     {!! $selectedTilePaint->paint_order !!}
