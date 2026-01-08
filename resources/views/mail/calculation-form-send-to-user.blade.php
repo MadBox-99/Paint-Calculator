@@ -107,7 +107,7 @@
                 megoldáshoz.</p>
 
             <div class="description-content">
-                {!! $data['tilePaint']->description !!}
+                {!! $data['selectedPaintDescription']->description !!}
             </div>
 
             <div class="warning-box">
@@ -118,8 +118,8 @@
 
             <p>Ha kérdésed merül fel a kivitelezéssel, a termékekkel vagy a megfelelő megoldás kiválasztásával
                 kapcsolatban, fordulj bizalommal alkalmazástechnikusainkhoz az <a
-                    href="mailto:info@harzo.hu">info@harzo.hu</a> e-mail címen vagy hívd a <a
-                    href="tel:+36706237610">06 70 623 7610</a> telefonszámot.</p>
+                    href="mailto:info@harzo.hu">info@harzo.hu</a> e-mail címen vagy hívd a <a href="tel:+36706237610">06
+                    70 623 7610</a> telefonszámot.</p>
 
             <p>Sok sikert kívánunk a felújításhoz, és örömteli alkotást kívánunk a HARZO megoldásaival!</p>
 
