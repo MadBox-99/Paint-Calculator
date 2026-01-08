@@ -74,23 +74,6 @@
                     style="width: 100px; height: 100px;">
                 <h1>Árajánlat Részletek</h1>
             </div>
-            <div class="details">
-                <h2>Ügyfél Információk</h2>
-                <p><strong>Teljes Név:</strong> {{ $data['full_name'] }}</p>
-                <p><strong>Email:</strong> {{ $data['email'] }}</p>
-                <p><strong>Kiválasztott Festékkategória:</strong> {{ $data['selectedPaintCategory']->name }}</p>
-                <p><strong>Kiválasztott Festék:</strong> {{ $data['tilePaint']->name }}</p>
-                <p><strong>Megadot terület:</strong> {{ $data['area'] }} m²</p>
-                <div class="{{ isset($data['region']) ? '' : 'hidden' }}">
-                    <p class="mb-2"><strong>Település, ahol vásárolni szeretnél:</strong>
-                        {{ isset($data['region']) ? $data['region']?->name : '' }}
-                    </p>
-                    <p class="mb-2"><strong>Festékbolt, ahol a vásárlást tervezed:</strong>
-                        {{ isset($data['region']) ? $data['store']?->name . ' ' . $data['store']->address : '' }}
-                    </p>
-                </div>
-            </div>
-            <div class="page-break"></div>
             <div class="">
                 <div class="p-8 bg-gray-100 rounded-lg description">
                     <h2 class="mb-4 font-semibold">
@@ -99,11 +82,6 @@
                         felületre az alább felsorolt anyagokat szükséges megvásárolni
                     </h2>
                     <p class="mb-2 details">{!! $data['selectedPaintDescription']?->description !!}</p>
-                    <div class="page-break"></div>
-                    <h2 class="mt-4 mb-2 text-lg font-semibold"><strong>Rétegrend:</strong></h2>
-                    @isset($data['tilePaint'])
-                        {!! $data['tilePaint']?->paint_order !!}
-                    @endisset
 
                 </div>
                 <div class="thank-you p-8 bg-gray-100 rounded-lg mt-8 text-center">
