@@ -8,11 +8,12 @@ use App\Filament\Exports\PartnerShopExporter;
 use App\Filament\Imports\PartnerShopImporter;
 use App\Filament\Resources\PartnerShopResource\Pages;
 use App\Models\PartnerShop;
-use Filament\Tables\Actions\ExportAction;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
 
@@ -31,14 +32,14 @@ class PartnerShopResource extends Resource
                     ->preload()
                     ->nullable()
                     ->createOptionForm([
-                        Forms\Components\TextInput::make('name')->label('Region Name')->required(),
+                        TextInput::make('name')->label('Region Name')->required(),
                     ]),
-                Forms\Components\TextInput::make('company_name'),
-                Forms\Components\TextInput::make('name'),
-                Forms\Components\TextInput::make('address'),
-                Forms\Components\TextInput::make('phone')
+                TextInput::make('company_name')->label('Név'),
+                TextInput::make('name')->label('Cég név'),
+                TextInput::make('address'),
+                TextInput::make('phone')
                     ->tel(),
-                Forms\Components\TextInput::make('email')
+                TextInput::make('email')
                     ->email(),
             ]);
     }
@@ -50,8 +51,10 @@ class PartnerShopResource extends Resource
                 Tables\Columns\TextColumn::make('region.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('company_name')
+                    ->label('Név')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Cég név')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(),

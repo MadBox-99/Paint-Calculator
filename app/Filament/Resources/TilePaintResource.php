@@ -6,8 +6,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TilePaintResource\Pages;
 use App\Models\TilePaint;
-use Filament\Forms;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,12 +24,12 @@ class TilePaintResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('paint_category_id')
+                Select::make('paint_category_id')
                     ->relationship('paintCategory', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('type')
+                TextInput::make('type')
                     ->required(),
-                Forms\Components\TextInput::make('name'),
+                TextInput::make('name'),
                 RichEditor::make('description')
                     ->columnSpanFull(),
                 RichEditor::make('paint_order')
