@@ -27,7 +27,7 @@
         @isset($selectedPaintDescription)
             <div class="p-8 bg-gray-100 rounded-lg description">
                 <h2 class="mb-4 font-semibold">
-                    {{ $selectedPaintDescription?->min }} - {{ $selectedPaintDescription?->max }} csempe festésére az alább
+                    {{ $selectedPaintDescription?->min }} - {{ $selectedPaintDescription?->max }}m2 felületre az alább
                     felsorolt anyagokat szükséges megvásárolni
                 </h2>
                 <p class="mb-2">{!! $selectedPaintDescription?->description !!}</p>

@@ -18,8 +18,10 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\HtmlString;
 use Livewire\Component;
 
 class CalculateForm extends Component implements HasForms
@@ -49,19 +51,26 @@ class CalculateForm extends Component implements HasForms
                     ->validationMessages([
                         'required' => 'A festés típusának kiválasztása kötelező',
                     ])
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                        $set('selectedPaint', null);
+                        $set('area', null);
+                        $this->selectedTilePaint = null;
+                        $this->selectedPaintDescription = null;
+                    })
                     ->live(),
                 Radio::make('selectedPaint')
                     ->required()
                     ->options(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('name', 'id') : [])
-                    ->descriptions(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('description', 'id') : [])
+                    ->descriptions(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('description', 'id')->map(fn ($desc) => new HtmlString($desc)) : [])
                     ->visible(fn (Get $get) => $get('selectedPaintCategory'))
                     ->label('Válaszd ki, a számodra megfelelő csomagot')
                     ->validationMessages([
                         'required' => 'A festék csomag kiválasztása kötelező',
                     ])
                     ->live()
-                    ->afterStateUpdated(function (Get $get, ?string $state) {
+                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
                         $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
+                        $set('area', null);
                     }),
                 TextInput::make('area')
                     ->numeric()
@@ -119,14 +128,13 @@ class CalculateForm extends Component implements HasForms
             $data['selectedPaintDescription'] = TilePaintDescription::find($data['selectedPaint']);
             $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
             $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
-            $data['region'] = Region::find($data['region']);
-            if ($data['region'] !== null) {
-                $data['store'] = $data['region']?->stores()->find($data['store']);
-            }
-            if ($data['region'] == null) {
+
+            if (isset($data['region']) && $data['region']) {
+                $data['region'] = Region::find($data['region']);
+                $data['store'] = $data['region']?->stores()->find($data['store'] ?? null);
+            } else {
                 unset($data['region']);
                 unset($data['store']);
-
             }
             // Generate PDF
             $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
@@ -155,12 +163,11 @@ class CalculateForm extends Component implements HasForms
         $data['selectedPaintDescription'] = TilePaintDescription::find($data['selectedPaint']);
         $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
         $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
-        $data['region'] = Region::find($data['region']);
 
-        if ($data['region'] !== null) {
-            $data['store'] = $data['region']?->stores()->find($data['store']);
-        }
-        if ($data['region'] == null) {
+        if (isset($data['region']) && $data['region']) {
+            $data['region'] = Region::find($data['region']);
+            $data['store'] = $data['region']?->stores()->find($data['store'] ?? null);
+        } else {
             unset($data['region']);
             unset($data['store']);
         }

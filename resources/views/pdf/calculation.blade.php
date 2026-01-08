@@ -94,9 +94,9 @@
             <div class="">
                 <div class="p-8 bg-gray-100 rounded-lg description">
                     <h2 class="mb-4 font-semibold">
-                        {{ $data['selectedPaintDescription']?->min }} m2 -
+                        {{ $data['selectedPaintDescription']?->min }} -
                         {{ $data['selectedPaintDescription']?->max }} m2
-                        csempe festésére az alább felsorolt anyagokat szükséges megvásárolni
+                        felületre az alább felsorolt anyagokat szükséges megvásárolni
                     </h2>
                     <p class="mb-2 details">{!! $data['selectedPaintDescription']?->description !!}</p>
                     <div class="page-break"></div>
