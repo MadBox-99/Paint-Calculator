@@ -90,13 +90,15 @@ class CalculateForm extends Component implements HasForms
                             ->where('min', '<=', $state)->where('max', '>=', $state)->first();
                         $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
                     }),
-                TextInput::make('email')->validationAttribute('email')
+                TextInput::make('email')
+                    ->validationAttribute('email')
                     ->email()
                     ->required()
                     ->validationMessages([
                         'required' => 'Az email cím megadása kötelező',
                     ])
                     ->label('Amennyiben E-mailben szeretnéd elküldeni magadnak a listát, írd be az E-mail címed')
+                    ->helperText('Kérlek ellenőrizd a Levélszemét/Spam mappádat, mert előfordulhat, hogy az üzenetünk oda kerül!')
                     ->visible(fn (Get $get) => $get('area'))
                     ->live(),
                 TextInput::make('full_name')->validationAttribute('full_name')
