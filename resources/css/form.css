@@ -27,5 +27,17 @@ form {
     button:hover {
         @apply bg-rose-700;
     }
-    
+
+}
+
+.description {
+    ul {
+        @apply list-disc list-inside ml-4 mb-4;
+    }
+    ol {
+        @apply list-decimal list-inside ml-4 mb-4;
+    }
+    li {
+        @apply mb-1;
+    }
 }

@@ -25,7 +25,7 @@
         </div>
 
         @isset($selectedPaintDescription)
-            <div class="p-8 bg-gray-100 rounded-lg description">
+            <div class="p-8 bg-gray-100 rounded-lg description" x-data x-init="$el.querySelectorAll('a').forEach(a => { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); })">
                 <h2 class="mb-4 font-semibold">
                     {{ $selectedPaintDescription?->min }} - {{ $selectedPaintDescription?->max }} m2 felületre az alább
                     felsorolt anyagokat szükséges megvásárolni
