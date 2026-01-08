@@ -86,6 +86,37 @@
             .description-content li {
                 margin: 5px 0;
             }
+
+            .paint-order-box {
+                background-color: #e8f4fd;
+                padding: 15px;
+                border-radius: 5px;
+                margin: 20px 0;
+                border-left: 4px solid #007bff;
+            }
+
+            .paint-order-box h1,
+            .paint-order-box h2,
+            .paint-order-box h3,
+            .paint-order-box h4 {
+                color: #222;
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .paint-order-box p {
+                margin: 10px 0;
+            }
+
+            .paint-order-box ul,
+            .paint-order-box ol {
+                margin: 10px 0;
+                padding-left: 25px;
+            }
+
+            .paint-order-box li {
+                margin: 5px 0;
+            }
         </style>
     </head>
 
@@ -108,6 +139,10 @@
 
             <div class="description-content">
                 {!! $data['selectedPaintDescription']->description !!}
+            </div>
+
+            <div class="paint-order-box">
+                {!! $data['tilePaint']->paint_order !!}
             </div>
 
             <div class="warning-box">
