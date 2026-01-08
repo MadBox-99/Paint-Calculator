@@ -41,7 +41,7 @@ class CalculationFormSendToUser extends Mailable
     public function content(): Content
     {
         return new Content(
-            html: 'mail.calculation-form-send-to-user',
+            view: 'mail.calculation-form-send-to-user',
         );
     }
 
