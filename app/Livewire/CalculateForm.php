@@ -54,8 +54,6 @@ class CalculateForm extends Component implements HasForms
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
                         $set('selectedPaint', null);
                         $set('area', null);
-                        $this->selectedTilePaint = null;
-                        $this->selectedPaintDescription = null;
                     })
                     ->live(),
                 Radio::make('selectedPaint')
