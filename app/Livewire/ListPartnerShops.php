@@ -6,26 +6,25 @@ namespace App\Livewire;
 
 use App\Filament\Imports\PartnerShopImporter;
 use App\Models\PartnerShop;
+use Filament\Actions\EditAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ImportAction;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Livewire\Component;
 
-class ListPartnerShops extends Component implements HasForms, HasTable
+class ListPartnerShops extends Component implements HasSchemas, HasTable
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
     use InteractsWithTable;
 
     public function table(Table $table): Table
     {
-
         return $table
             ->query(PartnerShop::query())
             ->columns([
@@ -53,8 +52,8 @@ class ListPartnerShops extends Component implements HasForms, HasTable
             ->filters([
                 //
             ])
-            ->actions([
-                EditAction::make()->form([
+            ->recordActions([
+                EditAction::make()->schema([
                     Select::make('region_id')
                         ->relationship('region', 'name')
                         ->label('Region')
@@ -77,9 +76,7 @@ class ListPartnerShops extends Component implements HasForms, HasTable
             ])->headerActions([
                 ImportAction::make()->importer(PartnerShopImporter::class),
             ])
-            ->bulkActions([
-
-            ]);
+            ->toolbarActions([]);
     }
 
     public function render()

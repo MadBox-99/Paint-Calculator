@@ -14,20 +14,19 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 
-class CalculateForm extends Component implements HasForms
+class CalculateForm extends Component implements HasSchemas
 {
-    use InteractsWithForms;
+    use InteractsWithSchemas;
 
     public ?array $data = [];
 
@@ -40,10 +39,10 @@ class CalculateForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make('selectedPaintCategory')
                     ->required()
                     ->options(PaintCategory::all()->pluck('name', 'id'))
@@ -59,7 +58,9 @@ class CalculateForm extends Component implements HasForms
                     ->live(),
                 Radio::make('selectedPaint')
                     ->required()
-                    ->options(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('name', 'id') : [])
+                    ->options(fn (Get $get) => $get('selectedPaintCategory')
+                        ? TilePaint::query()->where('paint_category_id', $get('selectedPaintCategory'))->pluck('name', 'id')
+                        : [])
                     ->descriptions(fn (Get $get) => $this->getPaintDescriptions($get))
                     ->visible(fn (Get $get) => $get('selectedPaintCategory'))
                     ->label('Válaszd ki, a számodra megfelelő csomagot')
@@ -131,14 +132,14 @@ class CalculateForm extends Component implements HasForms
             return [];
         }
 
-        $paints = PaintCategory::find($get('selectedPaintCategory'))->paints()->get();
+        $paints = TilePaint::query()->where('paint_category_id', $get('selectedPaintCategory'))->get();
 
         return $paints->mapWithKeys(function (TilePaint $paint) {
             $html = $paint->description ?? '';
 
             if (! empty($paint->images)) {
                 $imageUrls = collect($paint->images)
-                    ->map(fn (string $path): string => Storage::disk('public')->url($path))
+                    ->map(fn (string $path): string => asset('storage/' . $path))
                     ->values()
                     ->toArray();
 
@@ -167,12 +168,14 @@ class CalculateForm extends Component implements HasForms
             $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
             $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
 
-            if (isset($data['region']) && $data['region']) {
-                $data['region'] = Region::find($data['region']);
-                $data['store'] = $data['region']?->stores()->find($data['store'] ?? null);
+            /** @var Region|null $region */
+            $region = isset($data['region']) ? Region::query()->find($data['region']) : null;
+
+            if ($region) {
+                $data['region'] = $region;
+                $data['store'] = $region->stores()->find($data['store'] ?? null);
             } else {
-                unset($data['region']);
-                unset($data['store']);
+                unset($data['region'], $data['store']);
             }
             // Generate PDF
             $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
@@ -202,12 +205,14 @@ class CalculateForm extends Component implements HasForms
         $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
         $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
 
-        if (isset($data['region']) && $data['region']) {
-            $data['region'] = Region::find($data['region']);
-            $data['store'] = $data['region']?->stores()->find($data['store'] ?? null);
+        /** @var Region|null $region */
+        $region = isset($data['region']) ? Region::query()->find($data['region']) : null;
+
+        if ($region) {
+            $data['region'] = $region;
+            $data['store'] = $region->stores()->find($data['store'] ?? null);
         } else {
-            unset($data['region']);
-            unset($data['store']);
+            unset($data['region'], $data['store']);
         }
 
         // Generate PDF
