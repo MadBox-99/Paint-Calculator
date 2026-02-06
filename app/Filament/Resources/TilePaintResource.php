@@ -10,10 +10,12 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -29,16 +31,50 @@ class TilePaintResource extends Resource
     {
         return $schema
             ->components([
-                Select::make('paint_category_id')
-                    ->relationship('paintCategory', 'name')
-                    ->required(),
-                TextInput::make('type')
-                    ->required(),
-                TextInput::make('name'),
-                RichEditor::make('description')
-                    ->columnSpanFull(),
-                RichEditor::make('paint_order')
-                    ->columnSpanFull(),
+                Section::make('Alapadatok')
+                    ->schema([
+                        Select::make('paint_category_id')
+                            ->relationship('paintCategory', 'name')
+                            ->required(),
+                        TextInput::make('type')
+                            ->required(),
+                        TextInput::make('name'),
+                        RichEditor::make('description')
+                            ->label('Csomag leírás (rádió gombnál jelenik meg)')
+                            ->columnSpanFull(),
+                        FileUpload::make('images')
+                            ->label('Csomag képek')
+                            ->multiple()
+                            ->image()
+                            ->directory('tile-paints')
+                            ->visibility('public')
+                            ->reorderable()
+                            ->columnSpanFull(),
+                    ]),
+                Section::make('Tartalom szekciók')
+                    ->schema([
+                        RichEditor::make('inspiration_video')
+                            ->label('Inspirációs videó')
+                            ->columnSpanFull(),
+                        RichEditor::make('brief_implementation')
+                            ->label('Kivitelezés röviden')
+                            ->columnSpanFull(),
+                        RichEditor::make('where_to_buy')
+                            ->label('Hol vásárolható meg')
+                            ->columnSpanFull(),
+                        RichEditor::make('expert_help')
+                            ->label('Szakértői segítség')
+                            ->columnSpanFull(),
+                    ]),
+                Section::make('Lenyíló blokkok')
+                    ->schema([
+                        RichEditor::make('paint_order')
+                            ->label('Részletes kivitelezési útmutató')
+                            ->columnSpanFull(),
+                        RichEditor::make('important_info')
+                            ->label('Fontos tudnivalók')
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

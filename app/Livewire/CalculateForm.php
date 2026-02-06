@@ -21,6 +21,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 
@@ -59,7 +60,7 @@ class CalculateForm extends Component implements HasForms
                 Radio::make('selectedPaint')
                     ->required()
                     ->options(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('name', 'id') : [])
-                    ->descriptions(fn (Get $get) => $get('selectedPaintCategory') ? PaintCategory::find($get('selectedPaintCategory'))->paints()->get()->pluck('description', 'id')->map(fn ($desc) => new HtmlString($desc)) : [])
+                    ->descriptions(fn (Get $get) => $this->getPaintDescriptions($get))
                     ->visible(fn (Get $get) => $get('selectedPaintCategory'))
                     ->label('Válaszd ki, a számodra megfelelő csomagot')
                     ->validationMessages([
@@ -119,6 +120,43 @@ class CalculateForm extends Component implements HasForms
                     ->live(), */
             ])
             ->statePath('data');
+    }
+
+    /**
+     * @return array<int, HtmlString>
+     */
+    private function getPaintDescriptions(Get $get): array
+    {
+        if (! $get('selectedPaintCategory')) {
+            return [];
+        }
+
+        $paints = PaintCategory::find($get('selectedPaintCategory'))->paints()->get();
+
+        return $paints->mapWithKeys(function (TilePaint $paint) {
+            $html = $paint->description ?? '';
+
+            if (! empty($paint->images)) {
+                $imageUrls = collect($paint->images)
+                    ->map(fn (string $path): string => Storage::disk('public')->url($path))
+                    ->values()
+                    ->toArray();
+
+                $firstImage = $imageUrls[0];
+                $jsonImages = htmlspecialchars(json_encode($imageUrls), ENT_QUOTES, 'UTF-8');
+
+                $html .= '<div class="mt-2">'
+                    . '<p class="text-xs text-gray-500 mb-1">Kattints a képre a nagyításhoz</p>'
+                    . '<img src="' . $firstImage . '" alt="' . e($paint->name) . '"'
+                    . ' class="w-20 h-20 object-cover rounded cursor-pointer border border-gray-200 hover:border-rose-400 transition"'
+                    . ' onclick="event.stopPropagation(); window.dispatchEvent(new CustomEvent(\'open-lightbox\', { detail: { images: JSON.parse(this.dataset.images), index: 0 } }))"'
+                    . ' data-images="' . $jsonImages . '"'
+                    . ' />'
+                    . '</div>';
+            }
+
+            return [$paint->id => new HtmlString($html)];
+        })->toArray();
     }
 
     public function submit(): void

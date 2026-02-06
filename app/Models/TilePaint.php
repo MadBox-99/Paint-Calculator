@@ -16,7 +16,30 @@ class TilePaint extends Model
     /** @use HasFactory<\Database\Factories\TilePaintFactory> */
     use HasFactory;
 
-    protected $fillable = ['id', 'type', 'name', 'paint_category_id', 'description', 'paint_order'];
+    protected $fillable = [
+        'id',
+        'type',
+        'name',
+        'paint_category_id',
+        'description',
+        'paint_order',
+        'images',
+        'inspiration_video',
+        'brief_implementation',
+        'where_to_buy',
+        'expert_help',
+        'important_info',
+    ];
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'images' => 'array',
+        ];
+    }
 
     public function paintCategory(): BelongsTo
     {
