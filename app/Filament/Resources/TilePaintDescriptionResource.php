@@ -6,36 +6,42 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TilePaintDescriptionResource\Pages;
 use App\Models\TilePaintDescription;
-use Filament\Forms;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class TilePaintDescriptionResource extends Resource
 {
     protected static ?string $model = TilePaintDescription::class;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
-                Forms\Components\Select::make('tile_paint_id')
+            ->components([
+                Select::make('tile_paint_id')
                     ->relationship('tilePaint', 'name')
                     ->required(),
                 RichEditor::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('min')
+                TextInput::make('min')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('max')
+                TextInput::make('max')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('price')
+                TextInput::make('price')
                     ->required()
                     ->numeric()
                     ->postfix('Ft.'),
@@ -46,23 +52,23 @@ class TilePaintDescriptionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tilePaint.name')
+                TextColumn::make('tilePaint.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('min')
+                TextColumn::make('min')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('max')
+                TextColumn::make('max')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('price')
+                TextColumn::make('price')
                     ->money('HUF')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -70,13 +76,13 @@ class TilePaintDescriptionResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                ViewAction::make(),
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
