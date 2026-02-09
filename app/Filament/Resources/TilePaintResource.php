@@ -46,6 +46,7 @@ class TilePaintResource extends Resource
                             ->label('Csomag képek')
                             ->multiple()
                             ->image()
+                            ->disk('public')
                             ->directory('tile-paints')
                             ->visibility('public')
                             ->reorderable()
