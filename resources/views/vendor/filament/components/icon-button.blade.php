@@ -27,7 +27,7 @@
 ])
 
 @php
-    if (! $size instanceof ActionSize) {
+    if (! $size instanceof Size) {
         $size = filled($size) ? (Size::tryFrom($size) ?? $size) : null;
     }
 

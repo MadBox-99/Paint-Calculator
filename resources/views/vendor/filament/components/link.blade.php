@@ -35,7 +35,7 @@
         $iconPosition = filled($iconPosition) ? (IconPosition::tryFrom($iconPosition) ?? $iconPosition) : null;
     }
 
-    if (! $size instanceof ActionSize) {
+    if (! $size instanceof Size) {
         $size = filled($size) ? (Size::tryFrom($size) ?? $size) : null;
     }
 
@@ -51,9 +51,9 @@
     $linkClasses = \Illuminate\Support\Arr::toCssClasses([
         'fi-link group/link relative inline-flex items-center justify-center outline-none',
         'pointer-events-none opacity-70' => $disabled,
-        ($size instanceof ActionSize) ? "fi-size-{$size->value}" : null,
+        ($size instanceof Size) ? "fi-size-{$size->value}" : null,
         // @deprecated `fi-link-size-*` has been replaced by `fi-size-*`.
-        ($size instanceof ActionSize) ? "fi-link-size-{$size->value}" : null,
+        ($size instanceof Size) ? "fi-link-size-{$size->value}" : null,
         match ($size) {
             Size::ExtraSmall => 'gap-1',
             Size::Small => 'gap-1',

@@ -36,7 +36,7 @@
         $iconPosition = filled($iconPosition) ? (IconPosition::tryFrom($iconPosition) ?? $iconPosition) : null;
     }
 
-    if (! $size instanceof ActionSize) {
+    if (! $size instanceof Size) {
         $size = filled($size) ? (Size::tryFrom($size) ?? $size) : null;
     }
 
@@ -63,9 +63,9 @@
             // @deprecated `fi-btn-color-*` has been replaced by `fi-color-*` and `fi-color-custom`.
             is_string($color) ? "fi-btn-color-{$color}" : null,
             is_string($color) ? "fi-color-{$color}" : null,
-            ($size instanceof ActionSize) ? "fi-size-{$size->value}" : null,
+            ($size instanceof Size) ? "fi-size-{$size->value}" : null,
             // @deprecated `fi-btn-size-*` has been replaced by `fi-size-*`.
-            ($size instanceof ActionSize) ? "fi-btn-size-{$size->value}" : null,
+            ($size instanceof Size) ? "fi-btn-size-{$size->value}" : null,
             match ($size) {
                 Size::ExtraSmall => 'gap-1 px-2 py-1.5 text-xs',
                 Size::Small => 'gap-1 px-2.5 py-1.5 text-sm',
