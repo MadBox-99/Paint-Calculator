@@ -1,11 +1,11 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-DPLe8jvN.js",
+    "file": "assets/app-EJGsy6Dl.js",
     "name": "app",
     "src": "resources/css/app.css",
     "isEntry": true,
     "css": [
-      "assets/app-DBNh3A2W.css"
+      "assets/app-BCHzc3iu.css"
     ]
   },
   "resources/css/filament/admin/theme.css": {
@@ -23,7 +23,7 @@
     "src": "resources/images/HARZO-logo.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-OIliLzs6.js",
+    "file": "assets/app-Cm1rDHGu.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
