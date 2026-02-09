@@ -1,6 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@import "tailwindcss";
 
+@source "../views/**/*";
 
+@theme {
+    --color-gold-100: #faf1d3;
+    --color-gold-200: #f6e3a7;
+    --color-gold-300: #f1d57b;
+    --color-gold-400: #edc74f;
+    --color-gold-500: #e8b923;
+    --color-gold-600: #ba941c;
+    --color-gold-700: #8b6f15;
+    --color-gold-800: #5d4a0e;
+    --color-gold-900: #2e2507;
+}

@@ -1,17 +1,21 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-CjFXXXIW.css",
+    "file": "assets/app-DW32X35_.js",
+    "name": "app",
     "src": "resources/css/app.css",
+    "isEntry": true,
+    "css": [
+      "assets/app-OL8tqdce.css"
+    ]
+  },
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-suskT1O7.css",
+    "src": "resources/css/filament/admin/theme.css",
     "isEntry": true
   },
   "resources/css/form.css": {
-    "file": "assets/form-C_CYWVoy.css",
+    "file": "assets/form-CWr__MZV.css",
     "src": "resources/css/form.css",
-    "isEntry": true
-  },
-  "resources/css/theme.css": {
-    "file": "assets/theme-BiWJcnit.css",
-    "src": "resources/css/theme.css",
     "isEntry": true
   },
   "resources/images/HARZO-logo.webp": {
@@ -19,9 +23,12 @@
     "src": "resources/images/HARZO-logo.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-l0sNRNKZ.js",
+    "file": "assets/app-vk2lbClq.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "resources/css/app.css"
+    ]
   }
 }

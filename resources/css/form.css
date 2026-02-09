@@ -1,33 +1,33 @@
+@reference "tailwindcss";
 
 form {
     .fi-input {
-        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:ring-rose-600  focus:border-rose-600 !important; 
+        @apply bg-gray-50! border! border-gray-300! text-gray-900! text-sm! rounded-lg! block! w-full! p-2.5! focus:outline-hidden! focus:ring-rose-600! focus:border-rose-600!;
     }
     div .fi-input-wrp {
-        @apply  [&:not(:has(.fi-ac-action:focus))]:focus-within:ring-rose-600 !important;
+        @apply [&:not(:has(.fi-ac-action:focus))]:focus-within:ring-rose-600!;
     }
     .fi-select-input {
         @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-rose-600 focus:border-rose-600 block w-full p-2.5;
     }
     input[name="data.selectedPaint"] {
-        @apply checked:bg-rose-600 dark:checked:bg-rose-600 !important;
+        @apply checked:bg-rose-600! dark:checked:bg-rose-600!;
     }
     .fi-textarea {
         @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-rose-600 focus:border-rose-600 block w-full p-2.5;
     }
 
     label:has(.fi-radio-input) {
-        @apply inline-flex items-baseline gap-3 checked:border-black !important;
+        @apply inline-flex! items-baseline! gap-3! checked:border-black!;
     }
 
     button {
-        @apply sm:max-w-fit px-24 bg-rose-600 text-white text-base font-semibold rounded-lg focus:ring-rose-600 focus:border-rose-600 block w-full p-2.5 !important;
+        @apply sm:max-w-fit! px-24! bg-rose-600! text-white! text-base! font-semibold! rounded-lg! focus:ring-rose-600! focus:border-rose-600! block! w-full! p-2.5!;
     }
 
     button:hover {
         @apply bg-rose-700;
     }
-
 }
 
 .description {
