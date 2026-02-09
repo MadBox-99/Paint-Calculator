@@ -1,5 +1,5 @@
 @php
-    use Filament\Support\Enums\ActionSize;
+    use Filament\Support\Enums\Size;
     use Filament\Support\Enums\IconSize;
 @endphp
 
@@ -18,7 +18,7 @@
     'keyBindings' => null,
     'label' => null,
     'loadingIndicator' => true,
-    'size' => ActionSize::Medium,
+    'size' => Size::Medium,
     'spaMode' => null,
     'tag' => 'button',
     'target' => null,
@@ -28,13 +28,13 @@
 
 @php
     if (! $size instanceof ActionSize) {
-        $size = filled($size) ? (ActionSize::tryFrom($size) ?? $size) : null;
+        $size = filled($size) ? (Size::tryFrom($size) ?? $size) : null;
     }
 
     $iconSize ??= match ($size) {
-        ActionSize::ExtraSmall => IconSize::Small,
-        ActionSize::Small, ActionSize::Medium => IconSize::Medium,
-        ActionSize::Large, ActionSize::ExtraLarge => IconSize::Large,
+        Size::ExtraSmall => IconSize::Small,
+        Size::Small, Size::Medium => IconSize::Medium,
+        Size::Large, Size::ExtraLarge => IconSize::Large,
         default => IconSize::Medium,
     };
 
@@ -46,7 +46,7 @@
         'fi-icon-btn relative flex items-center justify-center rounded-lg outline-none transition duration-75 focus-visible:ring-2',
         'pointer-events-none opacity-70' => $disabled,
         ...match ($size) {
-            ActionSize::ExtraSmall => [
+            Size::ExtraSmall => [
                 match ($iconSize) {
                     IconSize::Small => '-m-1.5',
                     IconSize::Medium => '-m-1',
@@ -54,7 +54,7 @@
                 },
                 'h-7 w-7',
             ],
-            ActionSize::Small => [
+            Size::Small => [
                 match ($iconSize) {
                     IconSize::Small => '-m-2',
                     IconSize::Medium => '-m-1.5',
@@ -62,7 +62,7 @@
                 },
                 'h-8 w-8',
             ],
-            ActionSize::Medium => [
+            Size::Medium => [
                 match ($iconSize) {
                     IconSize::Small => '-m-2.5',
                     IconSize::Medium => '-m-2',
@@ -70,7 +70,7 @@
                 },
                 'h-9 w-9',
             ],
-            ActionSize::Large => [
+            Size::Large => [
                 match ($iconSize) {
                     IconSize::Small => '-m-3',
                     IconSize::Medium => '-m-2.5',
@@ -78,7 +78,7 @@
                 },
                 'h-10 w-10',
             ],
-            ActionSize::ExtraLarge => [
+            Size::ExtraLarge => [
                 match ($iconSize) {
                     IconSize::Small => '-m-3.5',
                     IconSize::Medium => '-m-3',

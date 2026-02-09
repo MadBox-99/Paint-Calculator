@@ -1,5 +1,5 @@
 @php
-    use Filament\Support\Enums\ActionSize;
+    use Filament\Support\Enums\Size;
     use Filament\Support\Enums\IconPosition;
     use Filament\Support\Enums\IconSize;
 @endphp
@@ -23,7 +23,7 @@
     'labelSrOnly' => false,
     'loadingIndicator' => true,
     'outlined' => false,
-    'size' => ActionSize::Medium,
+    'size' => Size::Medium,
     'spaMode' => null,
     'tag' => 'button',
     'target' => null,
@@ -37,11 +37,11 @@
     }
 
     if (! $size instanceof ActionSize) {
-        $size = filled($size) ? (ActionSize::tryFrom($size) ?? $size) : null;
+        $size = filled($size) ? (Size::tryFrom($size) ?? $size) : null;
     }
 
     $iconSize ??= match ($size) {
-        ActionSize::ExtraSmall, ActionSize::Small => IconSize::Small,
+        Size::ExtraSmall, Size::Small => IconSize::Small,
         default => IconSize::Medium,
     };
 
@@ -67,11 +67,11 @@
             // @deprecated `fi-btn-size-*` has been replaced by `fi-size-*`.
             ($size instanceof ActionSize) ? "fi-btn-size-{$size->value}" : null,
             match ($size) {
-                ActionSize::ExtraSmall => 'gap-1 px-2 py-1.5 text-xs',
-                ActionSize::Small => 'gap-1 px-2.5 py-1.5 text-sm',
-                ActionSize::Medium => 'gap-1.5 px-3 py-2 text-sm',
-                ActionSize::Large => 'gap-1.5 px-3.5 py-2.5 text-sm',
-                ActionSize::ExtraLarge => 'gap-1.5 px-4 py-3 text-sm',
+                Size::ExtraSmall => 'gap-1 px-2 py-1.5 text-xs',
+                Size::Small => 'gap-1 px-2.5 py-1.5 text-sm',
+                Size::Medium => 'gap-1.5 px-3 py-2 text-sm',
+                Size::Large => 'gap-1.5 px-3.5 py-2.5 text-sm',
+                Size::ExtraLarge => 'gap-1.5 px-4 py-3 text-sm',
                 default => $size,
             },
             'hidden' => $labeledFrom,
