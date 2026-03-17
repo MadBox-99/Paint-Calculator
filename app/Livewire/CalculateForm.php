@@ -43,6 +43,26 @@ class CalculateForm extends Component implements HasSchemas
     {
         return $schema
             ->components([
+                TextInput::make('area')
+                    ->numeric()
+                    ->required()
+                    ->label('Írd be a festés felületének területét (m2)')
+                    ->visible(fn (Get $get) => $get('selectedPaint'))
+                    ->live()
+                    ->validationMessages([
+                        'required' => 'A festés felületének területének megadása kötelező',
+                        'numeric' => 'A festés felületének területét számokkal kell megadni',
+                    ])
+                    ->afterStateUpdated(function (Get $get, ?string $state) {
+                        if (! $state) {
+                            $this->selectedPaintDescription = null;
+
+                            return;
+                        }
+                        $this->selectedPaintDescription = TilePaintDescription::where('tile_paint_id', $get('selectedPaint'))
+                            ->where('min', '<=', $state)->where('max', '>=', $state)->first();
+                        $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
+                    }),
                 Select::make('selectedPaintCategory')
                     ->required()
                     ->options(PaintCategory::all()->pluck('name', 'id'))
@@ -72,26 +92,7 @@ class CalculateForm extends Component implements HasSchemas
                         $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
                         $set('area', null);
                     }),
-                TextInput::make('area')
-                    ->numeric()
-                    ->required()
-                    ->label('Írd be a festés felületének területét (m2)')
-                    ->visible(fn (Get $get) => $get('selectedPaint'))
-                    ->live()
-                    ->validationMessages([
-                        'required' => 'A festés felületének területének megadása kötelező',
-                        'numeric' => 'A festés felületének területét számokkal kell megadni',
-                    ])
-                    ->afterStateUpdated(function (Get $get, ?string $state) {
-                        if (! $state) {
-                            $this->selectedPaintDescription = null;
 
-                            return;
-                        }
-                        $this->selectedPaintDescription = TilePaintDescription::where('tile_paint_id', $get('selectedPaint'))
-                            ->where('min', '<=', $state)->where('max', '>=', $state)->first();
-                        $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
-                    }),
                 TextInput::make('email')
                     ->validationAttribute('email')
                     ->email()
