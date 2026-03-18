@@ -62,7 +62,6 @@ class CalculateForm extends Component implements HasSchemas
                     ])
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
                         $set('selectedPaint', null);
-                        $set('area', null);
                     })
                     ->live(),
                 Radio::make('selectedPaint')
