@@ -5,6 +5,16 @@
                 {{ $this->form }}
             </form>
 
+            @isset($selectedPaintDescription)
+                <button
+                    type="button"
+                    class="w-full px-4 py-3 text-white bg-rose-500 rounded hover:bg-rose-600 sm:hidden"
+                    onclick="document.getElementById('paint-details').scrollIntoView({ behavior: 'smooth' })"
+                >
+                    Részletek megtekintése
+                </button>
+            @endisset
+
             <div class="flex space-x-4">
                 @if ($this->data['area'] !== null)
                     <button type="button" class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600"
@@ -24,7 +34,7 @@
         </div>
 
         @isset($selectedPaintDescription)
-            <div class="space-y-4 description" x-data x-init="$el.querySelectorAll('a').forEach(a => { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); })">
+            <div id="paint-details" class="space-y-4 description" x-data x-init="$el.querySelectorAll('a').forEach(a => { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); })">
 
                 {{-- Anyaglista - mindig látható --}}
                 <div class="p-6 bg-gray-100 rounded-lg">
