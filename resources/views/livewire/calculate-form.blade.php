@@ -5,6 +5,16 @@
                 {{ $this->form }}
             </form>
 
+            @if ($this->data['area'] !== null)
+                <div class="flex flex-col gap-2 sm:flex-row sm:gap-4">
+                    <button type="button" class="w-full px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600 sm:w-auto"
+                        wire:click="downloadPdf">{{ __('Anyaglista nyomtatása') }}
+                    </button>
+                    <button type="button" class="w-full px-4 py-2 text-white bg-gold-500 rounded hover:bg-gold-600 sm:w-auto"
+                        wire:click="sendOnlyToSelf">{{ __('Elküldöm E-mailben') }}
+                    </button>
+                </div>
+            @endif
         </div>
 
         @isset($selectedPaintDescription)
