@@ -1,9 +1,11 @@
 <?php
 
-use App\Livewire\CalculatorForm;
+declare(strict_types=1);
+
+use App\Livewire\CalculateForm;
 use Livewire\Livewire;
 
 it('renders successfully', function () {
-    Livewire::test(CalculatorForm::class)
+    Livewire::test(CalculateForm::class)
         ->assertStatus(200);
 });

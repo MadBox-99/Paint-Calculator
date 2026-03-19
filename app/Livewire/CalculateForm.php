@@ -60,10 +60,25 @@ class CalculateForm extends Component implements HasSchemas
                     ->validationMessages([
                         'required' => 'A festés típusának kiválasztása kötelező',
                     ])
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
+                    ->afterStateUpdated(function (Set $set) {
                         $set('selectedPaint', null);
+                        $set('selectedPaintMobile', null);
                     })
                     ->live(),
+                Select::make('selectedPaintMobile')
+                    ->options(fn (Get $get) => $get('selectedPaintCategory')
+                        ? TilePaint::query()->where('paint_category_id', $get('selectedPaintCategory'))->pluck('name', 'id')
+                        : [])
+                    ->visible(fn (Get $get) => $get('selectedPaintCategory'))
+                    ->label('Válaszd ki, a számodra megfelelő csomagot')
+                    ->placeholder('Válassz egy csomagot')
+                    ->extraFieldWrapperAttributes(['class' => 'sm:hidden'])
+                    ->dehydrated(false)
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        $set('selectedPaint', $state);
+                        $this->handlePaintSelection($state);
+                    }),
                 Radio::make('selectedPaint')
                     ->required()
                     ->options(fn (Get $get) => $get('selectedPaintCategory')
@@ -75,17 +90,11 @@ class CalculateForm extends Component implements HasSchemas
                     ->validationMessages([
                         'required' => 'A festék csomag kiválasztása kötelező',
                     ])
+                    ->extraFieldWrapperAttributes(['class' => 'hidden sm:block'])
                     ->live()
-                    ->afterStateUpdated(function (Get $get, Set $set, ?string $state) {
-                        if (! $state) {
-                            $this->selectedPaintDescription = null;
-
-                            return;
-                        }
-                        $this->selectedPaintDescription = TilePaintDescription::where('tile_paint_id', $get('selectedPaint'))
-                            ->where('min', '<=', $state)->where('max', '>=', $state)->first();
-                        $this->selectedTilePaint = TilePaint::find($get('selectedPaint'));
-
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
+                        $set('selectedPaintMobile', $state);
+                        $this->handlePaintSelection($state);
                     }),
 
                 TextInput::make('email')
@@ -117,6 +126,20 @@ class CalculateForm extends Component implements HasSchemas
                     ->live(), */
             ])
             ->statePath('data');
+    }
+
+    private function handlePaintSelection(?string $paintId): void
+    {
+        if (! $paintId) {
+            $this->selectedPaintDescription = null;
+            $this->selectedTilePaint = null;
+
+            return;
+        }
+
+        $this->selectedPaintDescription = TilePaintDescription::where('tile_paint_id', $paintId)
+            ->where('min', '<=', $paintId)->where('max', '>=', $paintId)->first();
+        $this->selectedTilePaint = TilePaint::find($paintId);
     }
 
     /**
