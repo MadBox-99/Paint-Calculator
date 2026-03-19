@@ -16,6 +16,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Components\View as FilamentView;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
@@ -96,6 +97,9 @@ class CalculateForm extends Component implements HasSchemas
                         $set('selectedPaintMobile', $state);
                         $this->handlePaintSelection($state);
                     }),
+
+                FilamentView::make('forms.components.form-buttons')
+                    ->visible(fn (Get $get) => $get('selectedPaint')),
 
                 TextInput::make('email')
                     ->validationAttribute('email')

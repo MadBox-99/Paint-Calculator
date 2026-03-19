@@ -5,32 +5,6 @@
                 {{ $this->form }}
             </form>
 
-            @isset($selectedPaintDescription)
-                <button
-                    type="button"
-                    class="w-full px-4 py-3 text-white bg-rose-500 rounded hover:bg-rose-600 sm:hidden"
-                    onclick="document.getElementById('paint-details').scrollIntoView({ behavior: 'smooth' })"
-                >
-                    Részletek megtekintése
-                </button>
-            @endisset
-
-            <div class="flex space-x-4">
-                @if ($this->data['area'] !== null)
-                    <button type="button" class="px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600"
-                        wire:click="downloadPdf">{{ __('Anyaglista nyomtatása') }}
-                    </button>
-                    <button type="button" class="px-4 py-2 text-white bg-gold-500 rounded hover:bg-gold-600"
-                        wire:click="sendOnlyToSelf">{{ __('Elküldöm E-mailben') }}
-                    </button>
-                @endif
-                {{--  @if ($this->data['region'] !== null && $this->data['area'] !== null)
-                    <button type="submit" wire:click="submit"
-                        class="px-4 py-2 text-white bg-rose-500 rounded hover:bg-rose-600">{{ __('filament-actions::modal.actions.submit.label') }}
-                        az üzletnek
-                    </button>
-                @endif --}}
-            </div>
         </div>
 
         @isset($selectedPaintDescription)
