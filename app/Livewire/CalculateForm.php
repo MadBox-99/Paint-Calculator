@@ -49,6 +49,7 @@ class CalculateForm extends Component implements HasSchemas
                     ->required()
                     ->label('Írd be a festés felületének területét (m2)')
                     ->live()
+                    ->afterStateUpdated(fn () => $this->handlePaintSelection($this->data['selectedPaint'] ?? null))
                     ->validationMessages([
                         'required' => 'A festés felületének területének megadása kötelező',
                         'numeric' => 'A festés felületének területét számokkal kell megadni',
@@ -64,6 +65,8 @@ class CalculateForm extends Component implements HasSchemas
                     ->afterStateUpdated(function (Set $set) {
                         $set('selectedPaint', null);
                         $set('selectedPaintMobile', null);
+                        $this->selectedPaintDescription = null;
+                        $this->selectedTilePaint = null;
                     })
                     ->live(),
                 Select::make('selectedPaintMobile')
