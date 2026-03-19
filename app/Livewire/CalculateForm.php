@@ -141,9 +141,16 @@ class CalculateForm extends Component implements HasSchemas
             return;
         }
 
+        $area = (float) ($this->data['area'] ?? 0);
+
         $this->selectedPaintDescription = TilePaintDescription::where('tile_paint_id', $paintId)
-            ->where('min', '<=', $paintId)->where('max', '>=', $paintId)->first();
-        $this->selectedTilePaint = TilePaint::find($paintId);
+            ->where('min', '<=', $area)
+            ->where('max', '>=', $area)
+            ->first();
+
+        $this->selectedTilePaint = $this->selectedPaintDescription
+            ? TilePaint::find($paintId)
+            : null;
     }
 
     /**
