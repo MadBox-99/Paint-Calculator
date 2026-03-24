@@ -18,6 +18,8 @@
 
     @filamentStyles
     @vite(['resources/css/app.css'])
+
+    <x-analytics />
 </head>
 
 <body class="antialiased">

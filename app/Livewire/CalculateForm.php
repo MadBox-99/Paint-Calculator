@@ -23,6 +23,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class CalculateForm extends Component implements HasSchemas
@@ -35,9 +36,35 @@ class CalculateForm extends Component implements HasSchemas
 
     public ?TilePaint $selectedTilePaint = null;
 
-    public function mount()
+    #[Url(as: 'kategoria')]
+    public ?string $urlCategory = null;
+
+    #[Url(as: 'csomag')]
+    public ?string $urlPaint = null;
+
+    #[Url(as: 'terulet')]
+    public ?string $urlArea = null;
+
+    #[Url(as: 'nev')]
+    public ?string $urlName = null;
+
+    #[Url(as: 'email')]
+    public ?string $urlEmail = null;
+
+    public function mount(): void
     {
-        $this->form->fill();
+        $this->form->fill(array_filter([
+            'area' => $this->urlArea,
+            'selectedPaintCategory' => $this->urlCategory,
+            'selectedPaint' => $this->urlPaint,
+            'selectedPaintMobile' => $this->urlPaint,
+            'full_name' => $this->urlName,
+            'email' => $this->urlEmail,
+        ]));
+
+        if ($this->urlPaint) {
+            $this->handlePaintSelection($this->urlPaint);
+        }
     }
 
     public function form(Schema $schema): Schema
@@ -49,7 +76,10 @@ class CalculateForm extends Component implements HasSchemas
                     ->required()
                     ->label('Írd be a festés felületének területét (m2)')
                     ->live()
-                    ->afterStateUpdated(fn () => $this->handlePaintSelection($this->data['selectedPaint'] ?? null))
+                    ->afterStateUpdated(function (?string $state) {
+                        $this->urlArea = $state;
+                        $this->handlePaintSelection($this->data['selectedPaint'] ?? null);
+                    })
                     ->validationMessages([
                         'required' => 'A festés felületének területének megadása kötelező',
                         'numeric' => 'A festés felületének területét számokkal kell megadni',
@@ -62,9 +92,11 @@ class CalculateForm extends Component implements HasSchemas
                     ->validationMessages([
                         'required' => 'A festés típusának kiválasztása kötelező',
                     ])
-                    ->afterStateUpdated(function (Set $set) {
+                    ->afterStateUpdated(function (Set $set, ?string $state) {
                         $set('selectedPaint', null);
                         $set('selectedPaintMobile', null);
+                        $this->urlCategory = $state;
+                        $this->urlPaint = null;
                         $this->selectedPaintDescription = null;
                         $this->selectedTilePaint = null;
                     })
@@ -81,6 +113,7 @@ class CalculateForm extends Component implements HasSchemas
                     ->live()
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         $set('selectedPaint', $state);
+                        $this->urlPaint = $state;
                         $this->handlePaintSelection($state);
                     }),
                 Radio::make('selectedPaint')
@@ -98,6 +131,7 @@ class CalculateForm extends Component implements HasSchemas
                     ->live()
                     ->afterStateUpdated(function (Set $set, ?string $state) {
                         $set('selectedPaintMobile', $state);
+                        $this->urlPaint = $state;
                         $this->handlePaintSelection($state);
                     }),
 

@@ -30,11 +30,52 @@
                 </div>
 
                 @isset($selectedTilePaint)
-                    {{-- Inspirációs videó - mindig látható --}}
+                    {{-- Mobil képgaléria - csak mobilon látható --}}
+                    @if(!empty($selectedTilePaint->images) || $selectedTilePaint->inspiration_video)
+                        <div class="sm:hidden space-y-0 rounded-lg overflow-hidden">
+                            <div class="bg-[#CC0000] px-6 py-3">
+                                <h3 class="text-lg font-semibold text-white">Felületek és részletek</h3>
+                            </div>
+
+                            @if(!empty($selectedTilePaint->images))
+                                <div class="p-4 bg-gray-100" x-data>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i class="fa-solid fa-camera text-gray-500"></i>
+                                        <span class="text-sm text-gray-600">Képek a felület részleteiről</span>
+                                    </div>
+                                    @php
+                                        $galleryImages = collect($selectedTilePaint->images)
+                                            ->map(fn (string $path) => asset('storage/' . $path))
+                                            ->values()
+                                            ->toArray();
+                                    @endphp
+                                    <div class="grid grid-cols-4 gap-2">
+                                        @foreach($galleryImages as $index => $imageUrl)
+                                            <img
+                                                src="{{ $imageUrl }}"
+                                                alt="{{ $selectedTilePaint->name }} - {{ $index + 1 }}"
+                                                class="w-full h-20 object-cover rounded cursor-pointer border border-gray-200 hover:border-rose-400 transition"
+                                                onclick="event.stopPropagation(); window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { images: {{ Js::from($galleryImages) }}, index: {{ $index }} } }))"
+                                            />
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
+                            @if($selectedTilePaint->inspiration_video)
+                                <a href="#video-section" class="flex items-center gap-2 p-4 bg-gray-100 border-t border-gray-200 hover:bg-gray-200 transition-colors">
+                                    <i class="fa-solid fa-video text-gray-500"></i>
+                                    <span class="text-sm text-gray-600">Nézd meg a kész felületet</span>
+                                </a>
+                            @endif
+                        </div>
+                    @endif
+
+                    {{-- Videó szekció --}}
                     @if($selectedTilePaint->inspiration_video)
-                        <div class="p-6 bg-gray-100 rounded-lg">
-                            <h3 class="mb-3 text-lg font-semibold">Inspirációs videó</h3>
-                            <div class="prose prose-sm max-w-none">{!! $selectedTilePaint->inspiration_video !!}</div>
+                        <div id="video-section" class="p-6 bg-[#CC0000] rounded-lg text-white">
+                            <h3 class="mb-3 text-lg font-semibold">Nézd meg a kész felületet</h3>
+                            <div class="prose prose-sm prose-invert max-w-none">{!! $selectedTilePaint->inspiration_video !!}</div>
                         </div>
                     @endif
 
