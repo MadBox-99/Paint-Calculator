@@ -11,9 +11,11 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -29,6 +31,8 @@ class PaintCategoryResource extends Resource
             ->components([
                 TextInput::make('name')
                     ->required(),
+                Toggle::make('is_active')
+                    ->default(true),
             ]);
     }
 
@@ -38,6 +42,7 @@ class PaintCategoryResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
+                ToggleColumn::make('is_active'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

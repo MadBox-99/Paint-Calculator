@@ -53,6 +53,11 @@ class CalculateForm extends Component implements HasSchemas
 
     public function mount(): void
     {
+        if ($this->urlCategory && ! PaintCategory::active()->where('id', $this->urlCategory)->exists()) {
+            $this->urlCategory = null;
+            $this->urlPaint = null;
+        }
+
         $this->form->fill(array_filter([
             'area' => $this->urlArea,
             'selectedPaintCategory' => $this->urlCategory,
@@ -86,7 +91,7 @@ class CalculateForm extends Component implements HasSchemas
                     ]),
                 Select::make('selectedPaintCategory')
                     ->required()
-                    ->options(PaintCategory::all()->pluck('name', 'id'))
+                    ->options(PaintCategory::active()->pluck('name', 'id'))
                     ->label('Válaszd ki, hogy milyen munkát szeretnél elvégezni')
                     ->placeholder('Válassz ki egy kategóriát')
                     ->validationMessages([

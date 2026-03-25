@@ -13,20 +13,21 @@
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $is_active
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TilePaint> $paints
  * @property-read int|null $paints_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory active()
  * @method static \Database\Factories\PaintCategoryFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PaintCategory whereUpdatedAt($value)
  */
@@ -35,8 +36,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int|null $region_id
  * @property string $company_name
@@ -65,8 +64,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -89,8 +86,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $region_id
  * @property string $name
@@ -118,8 +113,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $paint_category_id
  * @property string $type
@@ -128,6 +121,12 @@ namespace App\Models{
  * @property string|null $paint_order
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array<array-key, mixed>|null $images
+ * @property string|null $inspiration_video
+ * @property string|null $brief_implementation
+ * @property string|null $where_to_buy
+ * @property string|null $expert_help
+ * @property string|null $important_info
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TilePaintDescription> $descriptions
  * @property-read int|null $descriptions_count
  * @property-read \App\Models\PaintCategory $paintCategory
@@ -135,22 +134,26 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereBriefImplementation($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereExpertHelp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereImages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereImportantInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereInspirationVideo($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint wherePaintCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint wherePaintOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|TilePaint whereWhereToBuy($value)
  */
 	class TilePaint extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $tile_paint_id
  * @property string $description
@@ -177,8 +180,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $email

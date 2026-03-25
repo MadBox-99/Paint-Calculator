@@ -20,6 +20,7 @@ class PaintCategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+            'is_active' => true,
         ];
     }
 }
