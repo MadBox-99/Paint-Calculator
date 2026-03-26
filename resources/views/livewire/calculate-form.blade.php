@@ -5,6 +5,16 @@
                 {{ $this->form }}
             </form>
 
+            @if ($this->data['area'] !== null && $this->data['area'] !== '' && ((float) $this->data['area'] < 3 || (float) $this->data['area'] > 102))
+                <div class="p-4 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p class="font-semibold">A kalkulátor 3–102 m² közötti felületre készít számítást.</p>
+                    <p>Kérjük, adj meg legalább 3 m²-t a kalkulációhoz.</p>
+                    <p class="mt-2">Nagyobb projekt esetén vedd fel velünk a kapcsolatot, kollégáink készséggel segítenek:</p>
+                    <p>📞 <a href="tel:+36706237610" class="underline hover:text-amber-900">+36 70 623 7610</a></p>
+                    <p>✉️ <a href="mailto:info@harzo.hu" class="underline hover:text-amber-900">info@harzo.hu</a></p>
+                </div>
+            @endif
+
             @if ($this->data['area'] !== null)
                 <div class="flex flex-col gap-2 sm:flex-row sm:gap-4">
                     <button type="button" class="w-full px-4 py-2 text-white bg-gray-500 rounded hover:bg-gray-600 sm:w-auto"
