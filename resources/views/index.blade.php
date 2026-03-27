@@ -18,6 +18,6 @@
         </p>
     </div>
 
-    <livewire:calculate-form>
+    <livewire:calculate-form />
 
 </x-layouts.app>
