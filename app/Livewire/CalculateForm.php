@@ -236,7 +236,12 @@ class CalculateForm extends Component implements HasSchemas
     {
         try {
             $data = $this->form->getState();
-            $data['selectedPaintDescription'] = TilePaintDescription::find($data['selectedPaint']);
+            $area = (float) ($data['area'] ?? 0);
+            $data['selectedPaintDescription'] = TilePaintDescription::query()
+                ->where('tile_paint_id', $data['selectedPaint'])
+                ->where('min', '<=', $area)
+                ->where('max', '>=', $area)
+                ->first();
             $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
             $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
 
@@ -273,7 +278,12 @@ class CalculateForm extends Component implements HasSchemas
     public function sendOnlyToSelf(): void
     {
         $data = $this->form->getState();
-        $data['selectedPaintDescription'] = TilePaintDescription::find($data['selectedPaint']);
+        $area = (float) ($data['area'] ?? 0);
+        $data['selectedPaintDescription'] = TilePaintDescription::query()
+            ->where('tile_paint_id', $data['selectedPaint'])
+            ->where('min', '<=', $area)
+            ->where('max', '>=', $area)
+            ->first();
         $data['selectedPaintCategory'] = PaintCategory::find($data['selectedPaintCategory']);
         $data['tilePaint'] = TilePaint::find($data['selectedPaint']);
 

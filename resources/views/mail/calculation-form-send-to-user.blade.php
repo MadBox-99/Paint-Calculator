@@ -137,13 +137,17 @@
             <p>A kalkulátor célja, hogy érthetően, lépésről lépésre mutassa meg, milyen anyagokra van szükséged az adott
                 megoldáshoz.</p>
 
-            <div class="description-content">
-                {!! $data['selectedPaintDescription']->description !!}
-            </div>
+            @if($data['selectedPaintDescription'])
+                <div class="description-content">
+                    {!! $data['selectedPaintDescription']->description !!}
+                </div>
+            @endif
 
-            <div class="paint-order-box">
-                {!! $data['tilePaint']->paint_order !!}
-            </div>
+            @if($data['tilePaint']?->paint_order)
+                <div class="paint-order-box">
+                    {!! $data['tilePaint']->paint_order !!}
+                </div>
+            @endif
 
             <div class="warning-box">
                 <p><strong>Fontos tudnivaló:</strong></p>
