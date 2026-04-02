@@ -70,7 +70,7 @@
     <body>
         <div class="container">
             <div class="header">
-                <img src="https://harzo.hu/wp-content/uploads/2022/10/HARZO_uj_logo-1024x835.png" alt="Harzo Kft. logo"
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(resource_path('images/HARZO-logo.png'))) }}" alt="Harzo Kft. logo"
                     style="width: 100px; height: 100px;">
                 <h1>Árajánlat Részletek</h1>
             </div>
