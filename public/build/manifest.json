@@ -18,6 +18,10 @@
     "src": "resources/css/form.css",
     "isEntry": true
   },
+  "resources/images/HARZO-logo.png": {
+    "file": "assets/HARZO-logo-CxBQ-W2i.png",
+    "src": "resources/images/HARZO-logo.png"
+  },
   "resources/images/HARZO-logo.webp": {
     "file": "assets/HARZO-logo-BIfB6XjN.webp",
     "src": "resources/images/HARZO-logo.webp"
