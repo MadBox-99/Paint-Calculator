@@ -19,10 +19,13 @@ class CalculationFormSendToUser extends Mailable
 
     public $pdfPath;
 
-    public function __construct(array $data, string $pdfPath)
+    public $pdfFilename;
+
+    public function __construct(array $data, string $pdfPath, string $pdfFilename = 'calculation.pdf')
     {
         $this->data = $data;
         $this->pdfPath = $pdfPath;
+        $this->pdfFilename = $pdfFilename;
     }
 
     /**
@@ -54,7 +57,7 @@ class CalculationFormSendToUser extends Mailable
     {
         return [
             Attachment::fromPath(path: $this->pdfPath)
-                ->as('calculation.pdf')
+                ->as($this->pdfFilename)
                 ->withMime('application/pdf'),
 
         ];

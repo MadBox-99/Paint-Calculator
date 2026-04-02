@@ -6,6 +6,7 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -18,10 +19,13 @@ class CalculationFormSendToAdmin extends Mailable
 
     public $pdfPath;
 
-    public function __construct(array $data, string $pdfPath)
+    public $pdfFilename;
+
+    public function __construct(array $data, string $pdfPath, string $pdfFilename = 'calculation.pdf')
     {
         $this->data = $data;
         $this->pdfPath = $pdfPath;
+        $this->pdfFilename = $pdfFilename;
     }
 
     public function envelope(): Envelope
@@ -40,16 +44,10 @@ class CalculationFormSendToAdmin extends Mailable
 
     public function attachments(): array
     {
-        return [];
-    }
-
-    public function build()
-    {
-        return $this->view('emails.calculation_admin')
-            ->with('data', $this->data)
-            ->attach($this->pdfPath, [
-                'as' => 'calculation.pdf',
-                'mime' => 'application/pdf',
-            ]);
+        return [
+            Attachment::fromPath(path: $this->pdfPath)
+                ->as($this->pdfFilename)
+                ->withMime('application/pdf'),
+        ];
     }
 }

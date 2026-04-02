@@ -23,6 +23,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -255,18 +256,22 @@ class CalculateForm extends Component implements HasSchemas
                 unset($data['region'], $data['store']);
             }
             // Generate PDF
+            $pdfFilename = Str::of($data['tilePaint']->name)
+                ->replaceMatches('/[\/\\\\:*?"<>|]/', '')
+                ->trim()
+                ->toString() . '.pdf';
             $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
-            $pdfPath = storage_path('app/public/calculation.pdf');
+            $pdfPath = storage_path('app/public/' . Str::slug($data['tilePaint']->name) . '.pdf');
             $pdf->save($pdfPath);
 
             // Email the data to admin, 2 others and form email to the user
-            Mail::to($data['email'])->send(new CalculationFormSendToUser($data, $pdfPath));
+            Mail::to($data['email'])->send(new CalculationFormSendToUser($data, $pdfPath, $pdfFilename));
             // üzlet
             if (isset($data['region']) && isset($data['store'])) {
-                Mail::to($data['store']->email)->send(new CalculationFormSendToUser($data, $pdfPath));
+                Mail::to($data['store']->email)->send(new CalculationFormSendToUser($data, $pdfPath, $pdfFilename));
             }
             // admin
-            Mail::to(env('HARZO_ADMIN_EMAIL'))->send(new CalculationFormSendToAdmin($data, $pdfPath));
+            Mail::to(env('HARZO_ADMIN_EMAIL'))->send(new CalculationFormSendToAdmin($data, $pdfPath, $pdfFilename));
         } catch (\Exception $e) {
             // Handle the exception (e.g., log the error, show an error message)
             session()->flash('error', 'There was an error processing your request. Please try again later.');
@@ -298,12 +303,16 @@ class CalculateForm extends Component implements HasSchemas
         }
 
         // Generate PDF
+        $pdfFilename = Str::of($data['tilePaint']->name)
+            ->replaceMatches('/[\/\\\\:*?"<>|]/', '')
+            ->trim()
+            ->toString() . '.pdf';
         $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
-        $pdfPath = storage_path('app/public/calculation.pdf');
+        $pdfPath = storage_path('app/public/' . Str::slug($data['tilePaint']->name) . '.pdf');
         $pdf->save($pdfPath);
 
         // Email the data to admin, 2 others and form email to the user
-        Mail::to($data['email'])->send(new CalculationFormSendToUser($data, $pdfPath));
+        Mail::to($data['email'])->send(new CalculationFormSendToUser($data, $pdfPath, $pdfFilename));
 
         redirect()->to('/siker');
     }
@@ -321,9 +330,14 @@ class CalculateForm extends Component implements HasSchemas
 
         $pdf = PDF::loadView('pdf.calculation', ['data' => $data]);
 
+        $pdfFilename = Str::of($this->selectedTilePaint?->name ?? 'kalkulacio')
+            ->replaceMatches('/[\/\\\\:*?"<>|]/', '')
+            ->trim()
+            ->toString() . '.pdf';
+
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->output();
-        }, 'kalkulacio.pdf');
+        }, $pdfFilename);
     }
 
     public function render(): View
